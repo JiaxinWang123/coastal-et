@@ -11,9 +11,14 @@ model: **ExtraTrees on 11 VIF-pruned features, leave-site-out R² ≈ 0.72**. Me
 (especially reference ET) carries the signal; satellite indices add spatial texture. The
 ceiling is **training-site diversity**, not model choice.
 
+## Start here
+**`notebooks/coastal_wetland_ET_upscaling.ipynb`** runs the whole story end-to-end — problem → data → 12-model
+comparison → feature selection → spatial-upscaling validation → live 30 m reserve
+prediction → conclusions. The modular `00`–`04` notebooks remain as the detailed components.
+
 ## Repository layout
 ```
-notebooks/   00 setup · 01 data overview · 02 model selection · 03 upscaling · 04 reserve prediction
+notebooks/   coastal_wetland_ET_upscaling (full workflow) · 00 setup · 01 data · 02 models · 03 upscaling · 04 prediction
 src/         full analysis code; reserve_et.py is the portable pipeline notebook 04 imports
 data/processed/   more_sites_table.parquet (833-record training table) · daily_closed_et.parquet
                   core_coastal_sites.csv · final_model.joblib (production model) · result CSVs
@@ -22,18 +27,34 @@ figures/          generated figures + thumbnails
 docs/             METHODS.md · CITATIONS.md
 requirements.txt  pinned pip dependencies      environment.yml  conda spec
 ```
-The 20 GB of raw imagery/flux data is **not** in this repo (size + AmeriFlux terms).
-Notebooks 01 & 04 fetch imagery + meteorology live from public services instead.
+The 20 GB of raw imagery/flux data is **not** in this repo (size + AmeriFlux terms) and is
+**not needed** — the processed table and the pre-computed 30 m maps here drive the whole
+workflow. Live imagery/meteorology is fetched only if you opt into `RECOMPUTE` or predict a
+new area.
 
 ## Reproduce
-1. **`notebooks/00_environment_setup.ipynb`** → Run All. Installs `requirements.txt`
-   (or build the conda env: `conda env create -f environment.yml`) and verifies the stack.
-2. **`02` and `03`** → Run All. Fully **offline**; trains every model and draws every
-   figure from the bundled table (~1–3 min each). This is the core reproducible result.
-3. **`01` and `04`** need **outbound internet** (Microsoft Planetary Computer + gridMET).
-   `04` predicts 30 m ET over the reserve polygons (~8–12 min).
+Open **`notebooks/coastal_wetland_ET_upscaling.ipynb`** and **Run All** — it runs the whole
+workflow in ~10 minutes and is self-bootstrapping:
+- Its first cell **auto-installs** `requirements.txt` if the stack is missing, resolves the
+  project root wherever the repo is mounted, and fetches the analysis table from the
+  published dataset if absent. So it runs as-is on the **I-GUIDE JupyterHub** (which clones
+  this repo) — no manual setup.
+- **No raw-data download.** The raw→features work is already baked into
+  `more_sites_table.parquet` (Parts 1–3), and Part 4's 30 m reserve maps are **pre-computed**
+  in `data/processed/reserve_maps/*.npz` and loaded by default.
+- To regenerate the reserve maps from scratch instead, set **`RECOMPUTE = True`** in Part 4
+  (re-downloads Landsat + gridMET, ~10 min, needs internet).
 
-Paths are derived from each notebook's own location — nothing to edit.
+Prefer the modular pieces? `notebooks/00`–`04` run each stage individually. Paths self-resolve
+from the notebook location — nothing to edit.
+
+## Data availability
+The analysis table and the 30 m ET GeoTIFFs are published on the **I-GUIDE Platform**:
+<https://platform.i-guide.io/datasets/a0a5736a-4a53-4fb5-b20d-33d4e6019992>
+(direct: `https://storage.i-guide.io/datasets/a0a5736a-4a53-4fb5-b20d-33d4e6019992/coastal_et_dataset.zip`).
+This repo includes the analysis table and the reserve-map arrays (`.npz`); the GeoTIFFs live
+in that published dataset. The ~20 GB of raw imagery/flux is not redistributed (size +
+AmeriFlux terms) — it is a rapid download from AmeriFlux, USGS Landsat, gridMET, and ERA5.
 
 ## Data & license
 Processed table, model, and maps are released **CC-BY-4.0** (`LICENSE`). Underlying data
