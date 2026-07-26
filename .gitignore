@@ -4,7 +4,6 @@ data/raw/
 data/interim/
 data/processed/*.npz
 data/processed/pixel_et_model.joblib
-data/processed/daily_closed_et.csv
 data/processed/model_table_everglades.*
 data/processed/everglades_et_dataset.parquet
 # Caches / checkpoints
