@@ -1,0 +1,37 @@
+# Build a matching conda environment from scratch:
+#   conda env create -f environment.yml
+#   conda activate coastal-et
+#   python -m ipykernel install --user --name coastal-et --display-name "Python (coastal-et)"
+# Then open the notebooks and select the "Python (coastal-et)" kernel.
+name: coastal-et
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - numpy=2.4.6
+  - pandas=2.3.3
+  - pyarrow=24.0.0
+  - scikit-learn=1.9.0
+  - scipy
+  - matplotlib=3.11.0
+  - statsmodels=0.14.6
+  - xgboost=3.2.0
+  - lightgbm=4.6.0
+  - joblib=1.5.3
+  # geospatial (notebooks 01 & 04)
+  - geopandas=1.1.4
+  - shapely=2.1.2
+  - pyproj=3.7.2
+  - rasterio=1.4.4
+  - rioxarray=0.19.0
+  - affine=2.4.0
+  - xarray=2026.7.0
+  - dask=2026.7.0
+  # imagery + meteorology services (notebooks 01 & 04 — need internet)
+  - stackstac=0.5.1
+  - pystac-client=0.9.0
+  - jupyterlab
+  - ipykernel
+  - pip:
+      - planetary-computer==1.0.0

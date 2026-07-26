@@ -1,0 +1,19 @@
+{
+  "model": "ExtraTrees",
+  "features": [
+    "LAI",
+    "NDVI",
+    "MNDWI",
+    "LST_K",
+    "TA_ERA",
+    "VPD_ERA",
+    "SW_IN_ERA",
+    "WS_ERA",
+    "ETo_mm",
+    "DOY_sin",
+    "DOY_cos"
+  ],
+  "leave_site_R2": 0.722,
+  "n_train": 833,
+  "n_sites": 13
+}

@@ -1,0 +1,16 @@
+Copyright (c) 2026 Team 2, I-GUIDE Summer School 2026
+"Upscaling coastal-wetland evapotranspiration from flux towers to satellite"
+
+This work — including the derived dataset (more_sites_table.parquet), the trained
+model (final_model.joblib), the reserve ET maps, the notebooks, code, and figures —
+is licensed under the Creative Commons Attribution 4.0 International License (CC-BY-4.0).
+    https://creativecommons.org/licenses/by/4.0/
+
+Source code additionally may be reused under the BSD-3-Clause license.
+
+Underlying third-party data retain their own terms (see docs/CITATIONS.md):
+  AmeriFlux/FLUXNET (CC-BY-4.0), Landsat (USGS, public domain), Sentinel-2 (Copernicus),
+  gridMET (public domain), ERA5 (Copernicus C3S licence).
+
+To cite this work: Team 2 (2026), "Upscaling coastal-wetland evapotranspiration from
+flux towers to satellite," I-GUIDE Summer School 2026.

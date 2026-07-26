@@ -1,0 +1,7 @@
+model,n,R2,RMSE,MAE,bias
+baseline: train mean,272,-0.333,1.116,0.874,-0.558
+baseline: gridMET ETo (no model),272,-0.387,1.139,0.92,0.68
+"baseline: RF, MET ONLY (no satellite)",272,-0.543,1.201,0.978,-0.876
+Random Forest (all features),272,-0.243,1.078,0.848,-0.702
+MLP (all features),272,-0.547,1.202,0.975,-0.835
+  [RF on its own TRAINING data],1980,0.932,0.302,0.215,0.001

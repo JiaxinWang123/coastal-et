@@ -1,0 +1,21 @@
+# Raw & intermediate data — large and/or not redistributable (AmeriFlux, provider terms).
+# Notebooks 01 & 04 fetch imagery + meteorology live from public services instead.
+data/raw/
+data/interim/
+data/processed/*.npz
+data/processed/pixel_et_model.joblib
+data/processed/daily_closed_et.csv
+data/processed/model_table_everglades.*
+data/processed/everglades_et_dataset.parquet
+# Caches / checkpoints
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+# Archives & bundles
+*.tar.gz
+*.zip
+laptop_bundle/
+# Logs & scratch
+logs/
+*.log
+.DS_Store
