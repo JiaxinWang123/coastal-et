@@ -12,16 +12,11 @@ os.environ.setdefault("GDAL_HTTP_MAX_RETRY", "6")
 os.environ.setdefault("GDAL_DISABLE_READDIR_ON_OPEN", "EMPTY_DIR")
 import numpy as np
 import pandas as pd
-import geopandas as gpd
-import xarray as xr
-import dask
-import planetary_computer as pc
-import pystac_client
-import stackstac
-import rioxarray  # noqa: F401  (.rio accessor)
-from rasterio.features import geometry_mask
-from affine import Affine
-from sklearn.ensemble import ExtraTreesRegressor
+# The heavy geospatial / download stack (geopandas, xarray, stackstac, planetary_computer,
+# pystac_client, rioxarray, rasterio, affine, sklearn) is imported lazily inside the
+# functions that use it. That keeps `import reserve_et` working on a minimal Python — e.g.
+# the I-GUIDE JupyterHub (Python 3.8) — for the load-only path (load_production_model,
+# SHP_DIR, PROC), which needs none of it.
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))   # <proj>/src -> <proj>
 # reserve boundaries live beside the project (team2/shp_predict); fall back to the
@@ -51,6 +46,7 @@ def es_kpa(T):
 
 
 def train_best():
+    from sklearn.ensemble import ExtraTreesRegressor
     d = pd.read_parquet(f"{PROC}/more_sites_table.parquet")
     m = ExtraTreesRegressor(400, min_samples_leaf=2, random_state=0, n_jobs=-1)
     m.fit(d[FEATS].values, d.ET_closed_mm.values)
@@ -69,10 +65,12 @@ def load_production_model():
 
 
 def open_catalog():
+    import planetary_computer as pc, pystac_client
     return pystac_client.Client.open(STAC, modifier=pc.sign_inplace)
 
 
 def open_gridmet():
+    import xarray as xr
     return {v: xr.open_dataset(GM.format(v=v))[nm] for v, nm in GVARS.items()}
 
 
@@ -126,6 +124,9 @@ def pick_scene(cat, bbox, cx, cy):
 
 def predict_reserve(shp, model, cat, das, mask_water=True, feats=None):
     """Return a dict with the clipped ET map + coords + polygon + stats for one reserve."""
+    import geopandas as gpd, stackstac
+    from rasterio.features import geometry_mask
+    from affine import Affine
     feats = feats or FEATS
     g = gpd.read_file(shp).to_crs(4326)
     geom = g.geometry.union_all() if hasattr(g.geometry, "union_all") else g.geometry.unary_union
@@ -182,6 +183,8 @@ def predict_reserve(shp, model, cat, das, mask_water=True, feats=None):
 
 
 def save_outputs(r, outdir):
+    import xarray as xr
+    import rioxarray  # noqa: F401  (.rio accessor)
     os.makedirs(outdir, exist_ok=True)
     xa = xr.DataArray(r["et"], coords={"y": r["y"], "x": r["x"]}, dims=("y", "x"))
     xa.rio.write_crs(r["epsg"], inplace=True)
