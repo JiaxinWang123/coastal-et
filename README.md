@@ -63,3 +63,10 @@ gridMET (public domain), ERA5 (Copernicus C3S). Sources & citations in `docs/CIT
 
 ## Funding
 NSF award **OAC-2118329** (I-GUIDE Institute).
+
+## Data & model documentation (I-DET cards)
+Documented per the I-GUIDE Data Ethics Toolkit (I-DET v2.0):
+1. [Data Card 1](https://docs.google.com/document/d/1t0te7AOK5PyBxMpze5rV4AOQWvHYr4CP/edit)
+2. [Data Card 2](https://docs.google.com/document/d/1OO5PLDC0ouaLdYmnn0hmJx3R9gn6Q3_h/edit)
+3. [Model Card](https://docs.google.com/document/d/1bEjWCd567tLpJUw1Pc7j_HoDt3mYpgXK/edit)
+4. [Card Changes and Suggestions Statement](https://docs.google.com/document/d/1PcD-crwiCG3tBV9mZKzYh9_ouigZuoie/edit)
